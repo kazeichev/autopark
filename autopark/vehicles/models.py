@@ -8,6 +8,7 @@ class Vehicle(models.Model):
     mileage = models.FloatField(null=True)
     purchase_date = models.DateTimeField(null=True)
     condition = models.IntegerField(null=True)
+    price = models.IntegerField(null=True)
 
     def __str__(self):
         return self.vehicle_brand.name
