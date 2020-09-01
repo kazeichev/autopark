@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Vehicle(models.Model):
@@ -9,6 +10,7 @@ class Vehicle(models.Model):
     purchase_date = models.DateTimeField(null=True)
     condition = models.IntegerField(null=True)
     price = models.IntegerField(null=True)
+    enterprise = models.ForeignKey('Enterprise', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.vehicle_brand.name
@@ -45,3 +47,27 @@ class VehicleBrand(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Enterprise(models.Model):
+    name = models.CharField(max_length=255, null=False, blank=False)
+    city = models.CharField(max_length=255, null=False, blank=False)
+
+    def __str__(self):
+        return self.name
+
+
+class Driver(models.Model):
+    fio = models.CharField(max_length=255, null=False, blank=False)
+    city = models.CharField(max_length=255, null=False, blank=False)
+    salary = models.FloatField()
+    enterprise = models.ForeignKey('Enterprise', on_delete=models.CASCADE)
+    vehicle = models.ForeignKey('Vehicle', on_delete=models.CASCADE)
+    is_active = models.BooleanField()
+
+    def __str__(self):
+        return self.fio
+
+
+class Manager(User):
+    enterprise = models.ManyToManyField('Enterprise')
