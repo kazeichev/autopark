@@ -1,45 +1,46 @@
 from django.db import models
 
 
-class Vehicles(models.Model):
-    vehicle_brand = models.ForeignKey('VehicleBrands', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_created=True)
-    updated_at = models.DateTimeField(auto_created=True)
+class Vehicle(models.Model):
+    vehicle_brand = models.ForeignKey('VehicleBrand', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    mileage = models.FloatField(null=True)
+    purchase_date = models.DateTimeField(null=True)
+    condition = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.vehicle_brand.name
 
 
-class VehicleBrands(models.Model):
+class VehicleBrand(models.Model):
+    VEHICLE_TYPE_PASSENGER = 'passenger'
+    VEHICLE_TYPE_TRUCK = 'truck'
+    VEHICLE_TYPE_BUS = 'bus'
+
+    VEHICLE_TYPES = [
+        (VEHICLE_TYPE_PASSENGER, 'Легковой автомобиль'),
+        (VEHICLE_TYPE_TRUCK, 'Грузовой автомобиль'),
+        (VEHICLE_TYPE_BUS, 'Автобус')
+    ]
+
+    FUEL_TYPE_PETROL = 'petrol'
+    FUEL_TYPE_DIESEL = 'diesel'
+    FUEL_TYPE_GAS = 'gas'
+
+    FUEL_TYPES = [
+        (FUEL_TYPE_PETROL, 'Бензин'),
+        (FUEL_TYPE_DIESEL, 'Дизель'),
+        (FUEL_TYPE_GAS, 'Газ')
+    ]
+
     name = models.CharField(max_length=255, null=False, blank=False)
-    type = models.ForeignKey('VehicleTypes', on_delete=models.CASCADE)
-    fuel_type = models.ForeignKey('VehicleFuelTypes', on_delete=models.CASCADE)
+    type = models.CharField(max_length=20, choices=VEHICLE_TYPES, null=False, blank=False)
+    fuel_type = models.CharField(max_length=20, choices=FUEL_TYPES, null=False, blank=False)
     lifting = models.FloatField()
-    seats = models.DecimalField(max_digits=5, decimal_places=2)
-    created_at = models.DateTimeField(auto_created=True)
-    updated_at = models.DateTimeField(auto_created=True)
+    seats = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-
-class VehicleTypes(models.Model):
-    TYPE_PASSENGER = 'passenger'
-    TYPE_TRUCK = 'truck'
-    TYPE_BUS = 'bus'
-
-    TYPES = [
-        (TYPE_PASSENGER, 'Легковой автомобиль'),
-        (TYPE_TRUCK, 'Грузовой автомобиль'),
-        (TYPE_BUS, 'Автобус')
-    ]
-
-    type = models.CharField(max_length=20, choices=TYPES, null=False, blank=False)
-
-
-class VehicleFuelTypes(models.Model):
-    TYPE_PETROL = 'petrol'
-    TYPE_DIESEL = 'diesel'
-    TYPE_GAS = 'gas'
-
-    TYPES = [
-        (TYPE_PETROL, 'Бензин'),
-        (TYPE_DIESEL, 'Дизель'),
-        (TYPE_GAS, 'Газ')
-    ]
-
-    type = models.CharField(max_length=20, choices=TYPES, null=False, blank=False)
+    def __str__(self):
+        return self.name
