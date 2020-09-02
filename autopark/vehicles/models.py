@@ -71,3 +71,8 @@ class Driver(models.Model):
 
 class Manager(User):
     enterprise = models.ManyToManyField('Enterprise')
+
+    class Meta:
+        verbose_name = 'Manager'
+        verbose_name_plural = 'Managers'
+
