@@ -20,7 +20,7 @@ from rest_framework import routers
 from autopark.vehicles.views import VehicleViewSet
 
 router = routers.DefaultRouter()
-router.register('vehicles', VehicleViewSet)
+router.register('vehicles', VehicleViewSet, basename='VehicleView')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

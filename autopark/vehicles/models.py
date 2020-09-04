@@ -13,7 +13,7 @@ class Vehicle(models.Model):
     enterprise = models.ForeignKey('Enterprise', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.vehicle_brand.name
+        return '{}, {}, {}'.format(self.vehicle_brand, self.enterprise, self.price)
 
 
 class VehicleBrand(models.Model):
