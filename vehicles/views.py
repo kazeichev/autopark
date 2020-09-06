@@ -20,9 +20,17 @@ class VehicleBrandViewSet(viewsets.ModelViewSet):
 
 class EnterpriseViewSet(viewsets.ModelViewSet):
     serializer_class = EnterpriseSerializer
-    queryset = Enterprise.objects.all()
+
+    def get_queryset(self):
+        return Enterprise.objects.filter(
+            manager=self.request.user
+        )
 
 
 class DriverViewSet(viewsets.ModelViewSet):
     serializer_class = DriverSerializer
-    queryset = Driver.objects.all()
+
+    def get_queryset(self):
+        return Driver.objects.filter(
+            enterprise__manager=self.request.user
+        )
