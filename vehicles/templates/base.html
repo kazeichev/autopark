@@ -1,0 +1,12 @@
+{% extends 'bootstrap4/bootstrap4.html' %}
+
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{% block bootstrap4_content %}
+    <div class="container">
+        {% bootstrap_messages %}
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}

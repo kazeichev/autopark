@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from django.contrib.auth import views as auth_views
 
-from vehicles.views import VehicleViewSet, VehicleBrandViewSet, EnterpriseViewSet, DriverViewSet
+from vehicles.api_views import VehicleViewSet, VehicleBrandViewSet, EnterpriseViewSet, DriverViewSet
+from vehicles.views import manager
 
 router = routers.SimpleRouter()
 router.register(r'vehicles', VehicleViewSet, basename='VehicleView')
@@ -27,5 +29,7 @@ router.register(r'drivers', DriverViewSet, basename='DriverView')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html')),
+    path('', manager)
 ]

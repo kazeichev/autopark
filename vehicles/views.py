@@ -1,36 +1,17 @@
-from rest_framework import viewsets
-from .models import Vehicle, VehicleBrand, Enterprise, Driver
-from .serializers import VehicleSerializer, VehicleBrandSerializer, EnterpriseSerializer, DriverSerializer
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+from vehicles.models import Enterprise
 
 
-class VehicleViewSet(viewsets.ModelViewSet):
-    serializer_class = VehicleSerializer
+@login_required
+def manager(request):
+    user = request.user
+    enterprises = Enterprise.objects.filter(
+        manager=user
+    )
 
-    def get_queryset(self):
-        user = self.request.user
-        return Vehicle.objects.filter(
-            enterprise__manager=user
-        )
-
-
-class VehicleBrandViewSet(viewsets.ModelViewSet):
-    serializer_class = VehicleBrandSerializer
-    queryset = VehicleBrand.objects.all()
-
-
-class EnterpriseViewSet(viewsets.ModelViewSet):
-    serializer_class = EnterpriseSerializer
-
-    def get_queryset(self):
-        return Enterprise.objects.filter(
-            manager=self.request.user
-        )
-
-
-class DriverViewSet(viewsets.ModelViewSet):
-    serializer_class = DriverSerializer
-
-    def get_queryset(self):
-        return Driver.objects.filter(
-            enterprise__manager=self.request.user
-        )
+    return render(request, 'manager.html', {
+        'enterprises': enterprises,
+        'user': user
+    })
