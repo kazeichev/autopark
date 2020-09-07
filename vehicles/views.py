@@ -12,6 +12,5 @@ def manager(request):
     )
 
     return render(request, 'manager.html', {
-        'enterprises': enterprises,
-        'user': user
+        'enterprises': enterprises
     })

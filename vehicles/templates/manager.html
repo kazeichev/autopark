@@ -5,22 +5,26 @@
         <div class="row">
             <div class="col-12">
                 <h3 class="mb-4">Предприятия менеджера: {{ user.username }}</h3>
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <th>ID</th>
-                            <th>Название</th>
-                            <th>Город</th>
-                        </tr>
-                    </tbody>
-                    {% for enterprise in enterprises %}
-                        <tr>
-                            <td>{{ enterprise.id }}</td>
-                            <td>{{ enterprise.name }}</td>
-                            <td>{{ enterprise.city }}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
+                {% if enterprises %}
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>ID</th>
+                                <th>Название</th>
+                                <th>Город</th>
+                            </tr>
+                        </tbody>
+                        {% for enterprise in enterprises %}
+                            <tr>
+                                <td>{{ enterprise.id }}</td>
+                                <td>{{ enterprise.name }}</td>
+                                <td>{{ enterprise.city }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p>У вас нет ниодного предприятия!</p>
+                {% endif %}
             </div>
         </div>
     </section>
