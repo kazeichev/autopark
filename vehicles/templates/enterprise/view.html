@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+    <section class="p-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 d-flex align-items-start justify-content-between">
+                        <div>
+                            <h3 class="mb-2">Предприятие: {{ enterprise.name }}</h3>
+                            <h5 class="mb-4">Список автомобилей</h5>
+                        </div>
+                        <div>
+                            <a href="{% url 'vehicle-create' enterprise.id %}"
+                               class="btn btn-lg btn-success w-100 mb-2">Добавить</a>
+                        </div>
+                    </div>
+                </div>
+                {% if vehicles %}
+                    <div class="table-responsive">
+                        <table class="table" style="table-layout: fixed">
+                            <tbody>
+                            <tr>
+                                <th>ID</th>
+                                <th>Бренд</th>
+                                <th>Пробег</th>
+                                <th>Цена</th>
+                                <th>Состояние</th>
+                                <th>Дата покупки</th>
+                                <th class="text-right"></th>
+                            </tr>
+                            </tbody>
+                            {% for vehicle in vehicles %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'vehicle-view' enterprise.id vehicle.id %}">
+                                            {{ vehicle.id }}
+                                        </a>
+                                    </td>
+                                    <td>{{ vehicle.vehicle_brand.name }}</td>
+                                    <td>{{ vehicle.mileage }}</td>
+                                    <td>{{ vehicle.price }}</td>
+                                    <td>{{ vehicle.condition }}</td>
+                                    <td>{{ vehicle.purchase_date }}</td>
+                                    <td class="text-right">
+                                        <a href="{% url 'vehicle-edit' enterprise.id vehicle.id %}"
+                                           class="btn btn-warning w-100 mb-2">Изменить</a>
+                                        <a href="{% url 'vehicle-delete' enterprise.id vehicle.id %}"
+                                           class="btn btn-danger w-100">Удалить</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                        {% include '_snippets/pagination.html' with obj=vehicles %}
+                    </div>
+                {% else %}
+                    <p>У вас нет ни одного автомобиля!</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

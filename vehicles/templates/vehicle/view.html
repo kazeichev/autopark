@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+    <section class="p-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 d-flex align-items-start justify-content-between">
+                        <div>
+                            <a href="{% url 'enterprise-view' vehicle.enterprise.id %}">
+                                Список всех автомобилей
+                            </a>
+                            <h3 class="mb-2">Автомобиль: {{ vehicle.vehicle_brand.name }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" style="table-layout: fixed">
+                        <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Бренд</th>
+                            <th>Пробег</th>
+                            <th>Цена</th>
+                            <th>Состояние</th>
+                            <th>Дата покупки</th>
+                            <th class="text-right"></th>
+                        </tr>
+                        </tbody>
+                        <tr>
+                            <td>{{ vehicle.id }}</td>
+                            <td>{{ vehicle.vehicle_brand.name }}</td>
+                            <td>{{ vehicle.mileage }}</td>
+                            <td>{{ vehicle.price }}</td>
+                            <td>{{ vehicle.condition }}</td>
+                            <td>{{ vehicle.purchase_date }}</td>
+                            <td class="text-right">
+                                <a href="{% url 'vehicle-edit' vehicle.enterprise.id vehicle.id %}"
+                                   class="btn btn-warning w-100 mb-2">Изменить</a>
+                                <a href="{% url 'vehicle-delete' vehicle.enterprise.id vehicle.id %}"
+                                   class="btn btn-danger w-100">Удалить</a>
+                            </td>
+                        </tr>
+                    </table>
+                    {% include '_snippets/pagination.html' with obj=vehicles %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

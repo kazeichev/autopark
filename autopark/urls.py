@@ -19,7 +19,7 @@ from rest_framework import routers
 from django.contrib.auth import views as auth_views
 
 from vehicles.api_views import VehicleViewSet, VehicleBrandViewSet, EnterpriseViewSet, DriverViewSet
-from vehicles.views import manager
+from vehicles.views import manager, vehicle_edit, enterprise_view, vehicle_view, vehicle_delete, vehicle_create
 
 router = routers.SimpleRouter()
 router.register(r'vehicles', VehicleViewSet, basename='VehicleView')
@@ -31,5 +31,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html')),
+    path('enterprise/<int:enterprise_id>/', enterprise_view, name='enterprise-view'),
+    path('enterprise/<int:enterprise_id>/vehicle/create/', vehicle_create, name='vehicle-create'),
+    path('enterprise/<int:enterprise_id>/vehicle/<int:vehicle_id>/', vehicle_view, name='vehicle-view'),
+    path('enterprise/<int:enterprise_id>/vehicle/<int:vehicle_id>/edit/', vehicle_edit, name='vehicle-edit'),
+    path('enterprise/<int:enterprise_id>/vehicle/<int:vehicle_id>/delete/', vehicle_delete, name='vehicle-delete'),
     path('', manager)
 ]

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+    <section class="p-5">
+        <div class="row">
+            <div class="col-12">
+                <form method="post" class="form">
+                  {% csrf_token %}
+                  {% bootstrap_form form %}
+                  {% bootstrap_button "Сохранить" button_type="submit" button_class="btn-primary" %}
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

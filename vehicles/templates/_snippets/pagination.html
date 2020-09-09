@@ -1,0 +1,23 @@
+<nav>
+    <ul class="pagination justify-content-center">
+        {% if obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="?page={{ obj.previous_page_number }}">Назад</a>
+            </li>
+        {% endif %}
+        {% for i in obj.paginator.page_range %}
+            {% if i <= obj.number|add:5 and i >= obj.number|add:-5 %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% if obj.has_next %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="?page={{ obj.next_page_number }}">Вперед</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
