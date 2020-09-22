@@ -1,14 +1,22 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% load tz %}
 
 {% block content %}
     <section class="p-5">
         <div class="row">
             <div class="col-12">
                 <form method="post" class="form">
-                  {% csrf_token %}
-                  {% bootstrap_form form %}
-                  {% bootstrap_button "Сохранить" button_type="submit" button_class="btn-primary" %}
+                    {% csrf_token %}
+                    {% bootstrap_field form.vehicle_brand %}
+                    {% bootstrap_field form.enterprise %}
+                    {% bootstrap_field form.mileage %}
+                    {% bootstrap_field form.condition %}
+                    {% bootstrap_field form.price %}
+                    {% timezone enterprise.timezone %}
+                        {% bootstrap_field form.purchase_date %}
+                    {% endtimezone %}
+                    {% bootstrap_button "Сохранить" button_type="submit" button_class="btn-primary" %}
                 </form>
             </div>
         </div>

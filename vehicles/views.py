@@ -38,14 +38,15 @@ def enterprise_view(request, enterprise_id):
 @login_required
 @require_http_methods(['GET', 'POST'])
 def vehicle_create(request, enterprise_id):
-    vehicle = Vehicle(enterprise=Enterprise.objects.get(id=enterprise_id))
+    enterprise = Enterprise.objects.get(id=enterprise_id)
+    vehicle = Vehicle(enterprise=enterprise)
     form = VehicleCreateForm(request.POST or None, instance=vehicle)
 
     if form.is_valid():
         vehicle = form.save()
         return redirect('vehicle-view', enterprise_id=enterprise_id, vehicle_id=vehicle.id)
 
-    return render(request, 'vehicle/edit.html', {'form': form})
+    return render(request, 'vehicle/edit.html', {'form': form, 'enterprise': enterprise})
 
 
 @login_required
@@ -58,7 +59,7 @@ def vehicle_edit(request, enterprise_id, vehicle_id):
         form.save()
         return redirect('vehicle-view', enterprise_id=enterprise_id, vehicle_id=vehicle_id)
 
-    return render(request, 'vehicle/edit.html', {'form': form})
+    return render(request, 'vehicle/edit.html', {'form': form, 'enterprise': vehicle.enterprise})
 
 
 @login_required

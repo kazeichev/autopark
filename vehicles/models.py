@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import pytz
 
 
 class Vehicle(models.Model):
@@ -11,6 +12,14 @@ class Vehicle(models.Model):
     condition = models.IntegerField(null=True)
     price = models.IntegerField(null=True)
     enterprise = models.ForeignKey('Enterprise', on_delete=models.CASCADE, null=True)
+
+    @property
+    def purchase_date_tz(self):
+        timezone = pytz.timezone(self.enterprise.timezone)
+        return self.purchase_date.astimezone(timezone)
+
+    class Meta:
+        ordering = ['id']
 
     def __str__(self):
         return '{}, {}, {}'.format(self.vehicle_brand, self.enterprise, self.price)
@@ -50,8 +59,11 @@ class VehicleBrand(models.Model):
 
 
 class Enterprise(models.Model):
+    timezones = tuple(zip(pytz.all_timezones, pytz.all_timezones))
+
     name = models.CharField(max_length=255, null=False, blank=False)
     city = models.CharField(max_length=255, null=False, blank=False)
+    timezone = models.CharField(max_length=255, default='UTC', choices=timezones)
 
     def __str__(self):
         return self.name
@@ -75,4 +87,3 @@ class Manager(User):
     class Meta:
         verbose_name = 'Manager'
         verbose_name_plural = 'Managers'
-

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% load tz %}
 
 {% block content %}
     <section class="p-5">
@@ -42,7 +43,11 @@
                                     <td>{{ vehicle.mileage }}</td>
                                     <td>{{ vehicle.price }}</td>
                                     <td>{{ vehicle.condition }}</td>
-                                    <td>{{ vehicle.purchase_date }}</td>
+                                    <td>
+                                        {% timezone vehicle.enterprise.timezone %}
+                                            {{ vehicle.purchase_date }}
+                                        {% endtimezone %}
+                                    </td>
                                     <td class="text-right">
                                         <a href="{% url 'vehicle-edit' enterprise.id vehicle.id %}"
                                            class="btn btn-warning w-100 mb-2">Изменить</a>

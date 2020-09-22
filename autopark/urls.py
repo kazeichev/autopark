@@ -15,21 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
 from django.contrib.auth import views as auth_views
-
-from vehicles.api_views import VehicleViewSet, VehicleBrandViewSet, EnterpriseViewSet, DriverViewSet
 from vehicles.views import manager, vehicle_edit, enterprise_view, vehicle_view, vehicle_delete, vehicle_create
-
-router = routers.SimpleRouter()
-router.register(r'vehicles', VehicleViewSet, basename='VehicleView')
-router.register(r'vehicles-brand', VehicleBrandViewSet, basename='VehicleBrandView')
-router.register(r'enterprise', EnterpriseViewSet, basename='EnterpriseView')
-router.register(r'drivers', DriverViewSet, basename='DriverView')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('api/', include('vehicles.urls')),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html')),
     path('enterprise/<int:enterprise_id>/', enterprise_view, name='enterprise-view'),
     path('enterprise/<int:enterprise_id>/vehicle/create/', vehicle_create, name='vehicle-create'),

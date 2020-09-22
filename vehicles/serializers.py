@@ -17,6 +17,7 @@ class VehicleBrandSerializer(serializers.ModelSerializer):
 class VehicleSerializer(serializers.ModelSerializer):
     vehicle_brand = VehicleBrandSerializer
     enterprise = EnterpriseSerializer
+    purchase_date_tz = serializers.ReadOnlyField
 
     class Meta:
         model = Vehicle
