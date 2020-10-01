@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.gis.db import models as gis_models
 from django.contrib.auth.models import User
 import pytz
 
@@ -87,3 +88,17 @@ class Manager(User):
     class Meta:
         verbose_name = 'Manager'
         verbose_name_plural = 'Managers'
+
+
+class Track(models.Model):
+    vehicle = models.ForeignKey('Vehicle', on_delete=models.CASCADE)
+    route = gis_models.MultiPointField()
+    started_at = models.DateTimeField(auto_now_add=True)
+    finished_at = models.DateTimeField(null=True, default=None, blank=True)
+
+    @property
+    def route_points(self):
+        return self.route
+
+    def __str__(self):
+        return 'Track for {}'.format(self.vehicle.id)

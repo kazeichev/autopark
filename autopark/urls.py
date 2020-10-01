@@ -20,7 +20,7 @@ from vehicles.views import manager, vehicle_edit, enterprise_view, vehicle_view,
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('vehicles.urls')),
+    path('api/', include('vehicles.api_urls')),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html')),
     path('enterprise/<int:enterprise_id>/', enterprise_view, name='enterprise-view'),
     path('enterprise/<int:enterprise_id>/vehicle/create/', vehicle_create, name='vehicle-create'),

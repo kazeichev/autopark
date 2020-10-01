@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_http_methods
 
 from vehicles.forms import VehicleEditForm, VehicleCreateForm
-from vehicles.models import Enterprise, Vehicle, Manager
+from vehicles.models import Enterprise, Vehicle
 
 
 @login_required
