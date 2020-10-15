@@ -1,4 +1,4 @@
-from django.contrib.gis.gdal.geometries import MultiPoint, Point
+from django.contrib.gis.gdal.geometries import Point
 from django.contrib.gis.geos import GEOSGeometry, Point
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from .models import Vehicle, VehicleBrand, Enterprise, Driver, Track
 from .serializers import VehicleSerializer, VehicleBrandSerializer, EnterpriseSerializer, DriverSerializer, \
     TrackSerializer
+
+from geopy.geocoders import Yandex
 
 
 class VehicleViewSet(viewsets.ModelViewSet):
@@ -27,6 +29,29 @@ class VehicleViewSet(viewsets.ModelViewSet):
 
         for track in tracks:
             result.append(track.route)
+
+        return Response(result)
+
+    @action(methods=['GET'], detail=True, url_path='tracks-info')
+    def tracks_info(self, request, pk):
+        result = []
+        started_at = request.query_params.get('started_at')
+        finished_at = request.query_params.get('finished_at')
+        tracks = Track.objects.filter(vehicle=pk, started_at__gt=started_at, finished_at__lt=finished_at)
+        geolocator = Yandex(api_key='3a9de515-8d7f-49d0-a0eb-24f7d5d13533')
+
+        for track in tracks:
+            start_place_coords = GEOSGeometry(track.route[0]).coords[::-1]
+            finished_place_coords = GEOSGeometry(track.route[-1]).coords[::-1]
+            start_place = geolocator.reverse(start_place_coords, kind='locality')
+            finished_place = geolocator.reverse(finished_place_coords, kind='locality')
+
+            result.append({
+                'started_at': track.started_at,
+                'finished_at': track.finished_at,
+                'started_place': start_place.address if start_place is not None else 'Неизвестное местоположение',
+                'finished_place': finished_place.address if finished_place is not None else 'Неизвестное местоположение'
+            })
 
         return Response(result)
 
