@@ -6,7 +6,7 @@
     <section class="p-5">
         <div class="row">
             <div class="col-12">
-                <div class="row">
+                <div class="row mb-3 mb-md-4">
                     <div class="col-12 d-flex align-items-start justify-content-between">
                         <div>
                             <a href="{% url 'enterprise-view' vehicle.enterprise.id %}">
@@ -16,39 +16,70 @@
                         </div>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <table class="table" style="table-layout: fixed">
-                        <tbody>
-                        <tr>
-                            <th>ID</th>
-                            <th>Бренд</th>
-                            <th>Пробег</th>
-                            <th>Цена</th>
-                            <th>Состояние</th>
-                            <th>Дата покупки</th>
-                            <th class="text-right"></th>
-                        </tr>
-                        </tbody>
-                        <tr>
-                            <td>{{ vehicle.id }}</td>
-                            <td>{{ vehicle.vehicle_brand.name }}</td>
-                            <td>{{ vehicle.mileage }}</td>
-                            <td>{{ vehicle.price }}</td>
-                            <td>{{ vehicle.condition }}</td>
-                            <td>
-                                {% timezone vehicle.enterprise.timezone %}
-                                    {{ vehicle.purchase_date }}
-                                {% endtimezone %}
-                            </td>
-                            <td class="text-right">
-                                <a href="{% url 'vehicle-edit' vehicle.enterprise.id vehicle.id %}"
-                                   class="btn btn-warning w-100 mb-2">Изменить</a>
-                                <a href="{% url 'vehicle-delete' vehicle.enterprise.id vehicle.id %}"
-                                   class="btn btn-danger w-100">Удалить</a>
-                            </td>
-                        </tr>
-                    </table>
-                    {% include '_snippets/pagination.html' with obj=vehicles %}
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <p class="font-weight-bold">ID</p>
+                        <p>{{ vehicle.id }}</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <p class="font-weight-bold">Бренд</p>
+                        <p>{{ vehicle.vehicle_brand.name }}</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <p class="font-weight-bold">Пробег</p>
+                        <p>{{ vehicle.mileage }}км</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <p class="font-weight-bold">Цена</p>
+                        <p>{{ vehicle.price }} рублей</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <p class="font-weight-bold">Состояние</p>
+                        <p>{{ vehicle.condition }}/10</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <p class="font-weight-bold">Поездки</p>
+                        <ul>
+                            {% for track in tracks %}
+                                <li>
+                                    <a href="{% url 'track-view' track.id %}">
+                                        Поездка {{ track.started_at }} - {{ track.finished_at }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <p class="font-weight-bold">Состояние</p>
+                        <p>{{ vehicle.condition }}/10</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <a href="{% url 'vehicle-edit' vehicle.enterprise.id vehicle.id %}"
+                           class="btn btn-warning w-100 mb-2">Изменить</a>
+                        <a href="{% url 'vehicle-delete' vehicle.enterprise.id vehicle.id %}"
+                           class="btn btn-danger w-100">Удалить</a>
+                    </div>
                 </div>
             </div>
         </div>

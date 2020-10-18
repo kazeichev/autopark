@@ -1,10 +1,13 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.gis.geos import GEOSGeometry
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_http_methods
 
 from vehicles.forms import VehicleEditForm, VehicleCreateForm
-from vehicles.models import Enterprise, Vehicle
+from vehicles.models import Enterprise, Vehicle, Track
+
+import json
 
 
 @login_required
@@ -66,7 +69,8 @@ def vehicle_edit(request, enterprise_id, vehicle_id):
 @require_http_methods(['GET'])
 def vehicle_view(request, enterprise_id, vehicle_id):
     vehicle = get_object_or_404(Vehicle, id=vehicle_id)
-    return render(request, 'vehicle/view.html', {'vehicle': vehicle})
+    tracks = Track.objects.filter(vehicle=vehicle)
+    return render(request, 'vehicle/view.html', {'vehicle': vehicle, 'tracks': tracks})
 
 
 @login_required
@@ -77,3 +81,22 @@ def vehicle_delete(request, vehicle_id):
 
     vehicle.delete()
     return redirect('enterprise-view', id=enterprise_id)
+
+
+@login_required
+@require_http_methods(['GET'])
+def track_view(request, track_id):
+    track = get_object_or_404(Track, id=track_id)
+    route = []
+
+    for point in track.route:
+        p = GEOSGeometry(point).coords
+        route.append([*p])
+
+    return render(
+        request,
+        'track/view.html',
+        {
+            'track': track,
+            'route': json.dumps(route)
+        })

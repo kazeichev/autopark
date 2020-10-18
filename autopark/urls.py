@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
-from vehicles.views import manager, vehicle_edit, enterprise_view, vehicle_view, vehicle_delete, vehicle_create
+from vehicles.views import manager, vehicle_edit, enterprise_view, vehicle_view, vehicle_delete, vehicle_create, \
+    track_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +28,6 @@ urlpatterns = [
     path('enterprise/<int:enterprise_id>/vehicle/<int:vehicle_id>/', vehicle_view, name='vehicle-view'),
     path('enterprise/<int:enterprise_id>/vehicle/<int:vehicle_id>/edit/', vehicle_edit, name='vehicle-edit'),
     path('enterprise/<int:enterprise_id>/vehicle/<int:vehicle_id>/delete/', vehicle_delete, name='vehicle-delete'),
+    path('track/<int:track_id>/', track_view, name='track-view'),
     path('', manager)
 ]
