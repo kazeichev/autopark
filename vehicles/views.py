@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_http_methods
 
 from vehicles.forms import VehicleEditForm, VehicleCreateForm
-from vehicles.models import Enterprise, Vehicle, Track
+from vehicles.models import Enterprise, Vehicle, Track, Report, VehicleMileageReport
 
 import json
 
@@ -100,3 +100,10 @@ def track_view(request, track_id):
             'track': track,
             'route': json.dumps(route)
         })
+
+
+@login_required
+@require_http_methods(['GET'])
+def reports_list(request):
+    vehicleMileageReports = VehicleMileageReport.objects.all()
+    return render(request, 'report/list.html', {'vehicleMileageReports': vehicleMileageReports})
