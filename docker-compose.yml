@@ -2,6 +2,7 @@ version: "3"
 
 services:
   postgis:
+    container_name: postgis
     image: postgis/postgis:latest
     restart: always
     environment:

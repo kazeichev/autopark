@@ -26,7 +26,8 @@ class Vehicle(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return '{}, {}, {}, {}'.format(self.id, self.vehicle_brand, self.enterprise, self.price)
+        return 'Автомобиль. ID: {}, марка: {}, предприятие {}, цена {}' \
+            .format(self.id, self.vehicle_brand.name, self.enterprise.name, self.price)
 
 
 class VehicleBrand(models.Model):
@@ -82,7 +83,7 @@ class Driver(models.Model):
     is_active = models.BooleanField()
 
     def __str__(self):
-        return self.fio
+        return "Водитель {}".format(self.fio)
 
 
 class Manager(User):
@@ -128,6 +129,19 @@ class Report(models.Model):
 
     class Meta:
         abstract = True
+
+    def get_trans_period(self):
+        trans = ''
+
+        if self.period == Report.PERIOD_MONTH:
+            trans = 'Месяц'
+        elif self.period == Report.PERIOD_YEAR:
+            trans = 'Год'
+
+        return trans
+
+    def get_trans_type(self):
+        raise NotImplementedError()
 
     def result(self):
         raise NotImplementedError()
@@ -179,16 +193,6 @@ class VehicleMileageReport(Report):
     def get_trans_type(self):
         return Report.TYPES[self.type]
 
-    def get_trans_period(self):
-        trans = ''
-
-        if self.period == Report.PERIOD_MONTH:
-            trans = 'Месяц'
-        elif self.period == Report.PERIOD_YEAR:
-            trans = 'Год'
-
-        return trans
-
     def __str__(self):
-        return 'Отчёт о пробеге автомобиля с ID {} за {} с {} по {}' \
-            .format(self.vehicle.id, self.period, self.started_at, self.finished_at)
+        return 'Отчёт о пробеге автомобиля с ID {} за {}, с {} по {}' \
+            .format(self.vehicle.id, self.get_trans_period(), self.started_at, self.finished_at)

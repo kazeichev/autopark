@@ -42,9 +42,8 @@ class Command(BaseCommand, ABC):
         timer.start()
 
         distance = self.calculate_distance()
-        self.passed_distance += distance
 
-        print(self.passed_distance, self.current_point)
+        self.passed_distance += distance
         self.current_point = self.create_move_point(distance)
         self.move()
 
