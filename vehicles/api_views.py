@@ -4,9 +4,9 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from .models import Vehicle, VehicleBrand, Enterprise, Driver, Track
+from .models import Vehicle, VehicleBrand, Enterprise, Driver, Track, VehicleMileageReport
 from .serializers import VehicleSerializer, VehicleBrandSerializer, EnterpriseSerializer, DriverSerializer, \
-    TrackSerializer
+    TrackSerializer, VehicleMileageReportSerializer
 
 from geopy.geocoders import Yandex
 
@@ -102,3 +102,8 @@ class TrackViewSet(viewsets.ModelViewSet):
             return Response('Переданы не валидные координаты')
 
         return Response(point)
+
+
+class VehicleMileageReportViewSet(viewsets.ModelViewSet):
+    queryset = VehicleMileageReport.objects.all()
+    serializer_class = VehicleMileageReportSerializer

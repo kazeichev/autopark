@@ -7,5 +7,6 @@ router.register('vehicle-brands', api_views.VehicleBrandViewSet, basename='vehic
 router.register('enterprises', api_views.EnterpriseViewSet, basename='enterprises')
 router.register('drivers', api_views.DriverViewSet, basename='drivers')
 router.register('tracks', api_views.TrackViewSet, basename='tracks')
+router.register('mileage-reports', api_views.VehicleMileageReportViewSet, basename='tracks')
 
 urlpatterns = router.urls

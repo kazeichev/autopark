@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Vehicle, VehicleBrand, Enterprise, Driver, Track
+from .models import Vehicle, VehicleBrand, Enterprise, Driver, Track, VehicleMileageReport
 
 
 class EnterpriseSerializer(serializers.ModelSerializer):
@@ -56,3 +56,17 @@ class TrackSerializer(serializers.ModelSerializer):
             'route'
         ]
 
+
+class VehicleMileageReportSerializer(serializers.ModelSerializer):
+    vehicle = VehicleSerializer
+
+    class Meta:
+        model = VehicleMileageReport
+        fields = [
+            'vehicle',
+            'type',
+            'period',
+            'started_at',
+            'finished_at',
+            'result',
+        ]
