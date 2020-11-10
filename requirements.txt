@@ -6,3 +6,4 @@ randomtimestamp~=1.0.0
 django-bootstrap4==2.2.0
 geopy==2.0.0
 pyproj==3
+python-telegram-bot==13.0

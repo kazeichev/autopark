@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'vehicles',
+    'telegram_bot',
     'bootstrap4',
 ]
 
@@ -134,3 +135,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+TELEGRAM_BOT_TOKEN = '1372154377:AAFzm2ugH3oWlX5wEzeykMgUCcgpc0QeCFU'
