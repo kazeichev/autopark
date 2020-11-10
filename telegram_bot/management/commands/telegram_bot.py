@@ -10,6 +10,10 @@ from telegram_bot.handlers.all_handlers import get_all_handlers
 
 
 class Command(BaseCommand, ABC):
+    """
+    @url https://github.com/python-telegram-bot/python-telegram-bot
+    """
+
     help = 'Запуск телеграм бота'
     updater = None
     dispatcher = None
