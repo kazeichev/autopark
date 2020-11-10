@@ -17,6 +17,6 @@
 5. Bootstrap
 
 #### Процесс установки
-1. git clone https://github.com/kazeichev/autopark\
+1. git clone https://github.com/kazeichev/autopark
 2. ./initial_start.sh
 3. Перейти на http://127.0.0.1:8000/ или http://127.0.0.1:8000/admin
