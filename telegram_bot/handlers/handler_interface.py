@@ -2,8 +2,8 @@ import abc
 
 
 class HandlerInterface(metaclass=abc.ABCMeta):
-    @abc.abstractstaticmethod
-    def get_handler():
+    @abc.abstractmethod
+    def get_handler(self):
         """
         Генерация handler-a
         """
